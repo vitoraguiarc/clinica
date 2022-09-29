@@ -11,14 +11,14 @@ export const Input = ({label, error, onFocus=()=>{}, iconName, ...props }) => {
 
             <View style={[styles.imputContainer, {borderColor: error ? '#F00' : '#000'}]}>
 
-                <Icon style={styles.icon} name={iconName}></Icon>
-
                 <TextInput 
                 style={styles.TextInput} 
                     autoCorrect={false}
                     onFocus={()=>{onFocus()}}
                     {...props}  
                 />
+
+                <Icon style={error ? styles.iconError : styles.icon} name={error ? "alert-circle" : iconName}></Icon>
                 
             </View>
             <Text>{error}</Text>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     },
     imputContainer: {
         height: 40,
-        backgroundColor: '#ffa500',
+        backgroundColor: '#fff',
         flexDirection: "row",
         paddingHorizontal: 15,
         borderWidth: 2,
@@ -47,12 +47,17 @@ const styles = StyleSheet.create({
     
     },
     TextInput: {
-        color: '#FFF',
+        color: '#000',
         flex: 1,
     },
     icon: {
         fontSize: 22,
         color: '#000',
-        marginRight: 10
+        marginRight: 10,
+    },
+    iconError: {
+        fontSize: 22,
+        color: '#f00',
+        marginRight: 10,
     }
 });

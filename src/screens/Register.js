@@ -1,7 +1,10 @@
 import React, {useState} from "react";
-import {View, Text, StyleSheet, SafeAreaView, ScrollView} from "react-native"
+import {View, Text, StyleSheet, SafeAreaView, ScrollView, ImageBackground, Image} from "react-native"
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
+import { COLORS } from "../assets/const/colors";
+import background from "../assets/imgs/background.jpg"
+
 
 
 export const Register = () => {
@@ -37,8 +40,26 @@ export const Register = () => {
           handlerErros('Informe o seu nome', 'nome');
         }
 
+        if (!inputs.telefone) {
+            validate = false
+            handlerErros('Informe o seu telefone', 'telefone');
+        }
+
+        if (!inputs.celular) {
+            validate = false
+            handlerErros('Informe o seu celular', 'celular');
+        }
+
+        //expressão regular que válida um email
+        const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (!re.test(String(inputs.email).toLowerCase())) {
+            validate = false
+            handlerErros('Informe um email válido', 'email');
+        }
+
+
         if(validate) {
-            console.log('AAAA');
+            console.log('Sem erros de validação');
         }
       }
 
@@ -48,45 +69,73 @@ export const Register = () => {
 
             <ScrollView style={styles.scroll}>
 
-                <Text> CADASTRO DE PACIENTE</Text>
-
                 <View style={styles.viewForm}>
+
+                    <Text style={styles.title}>CADASTRO DE PACIENTE</Text>
 
                     <Input 
                         label="Nome"
                         placeholder="Seu nome completo"
                         error={errors.nome}
                         onFocus={()=>{handlerErros(null, 'nome')}}
-                        onChangeText={(text)=>handlerOnChange(text, 'nome')}>
+                        onChangeText={(text)=>handlerOnChange(text, 'nome')}
+                        iconName="account-circle">
                     </Input>
 
                     <Input 
                         label="Telefone"
+                        placeholder="Informe seu telefone"
+                        error={errors.telefone}
+                        onFocus={()=>{handlerErros(null, 'telefone')}}
+                        onChangeText={(text)=>handlerOnChange(text, 'telefone')}
+                        iconName="phone"
                         >
                     </Input>
 
+                    
+
                     <Input 
                         label="Celular"
+                        placeholder="Informe seu celular"
+                        error={errors.celular}
+                        onFocus={()=>{handlerErros(null, 'celular')}}
+                        onChangeText={(text)=>handlerOnChange(text, 'celular')}
+                        iconName="cellphone"
                         >
                     </Input>
 
                     <Input 
                         label="E-mail"
+                        placeholder="Informe seu email"
+                        error={errors.email}
+                        onFocus={()=>{handlerErros(null, 'email')}}
+                        onChangeText={(text)=>handlerOnChange(text, 'email')}
+                        iconName="email"
                         >
                     </Input>
 
-                    <Input 
-                        label="Nome Responsavel"
-                        >
-                    </Input>
+                    <View style={styles.responsavel}>
 
-                    <Input 
-                        label="Telefone Responsavel"
-                        >
-                    </Input> 
+                        <Text style={styles.title}>DADOS DE RESPONSÁVEL</Text>
+
+                        <Input 
+                            label="Nome responsável"
+                            placeholder="Opcional"
+                            iconName="human-male-boy"
+                            >
+                        </Input>
+
+                        <Input 
+                            label="Telefone responsável"
+                            placeholder="Opcional"
+                            iconName="phone"
+                            >
+                        </Input> 
+
+                    </View>
 
                     <Button 
-                        title="AAA"
+                        title="CADASTRAR"
                         onPress={validate}/>
 
                 </View>
@@ -101,18 +150,32 @@ export const Register = () => {
 const styles = StyleSheet.create({
     safe : {
         flex: 1,
-        backgroundColor: '#F0F0F0'
+        backgroundColor: COLORS.pinkBold
     },
     scroll: {
-        paddingTop: 50,
+        //paddingTop: 0,
         paddingHorizontal: 20
       },
       title: {
-        color: '#000',
+        color: COLORS.black,
         fontSize: 25,
         fontWeight: "bold"
       },
       viewForm: {
-        marginVertical: 20,
-      }
+       marginVertical: 55,
+      },
+      title: {
+        fontSize: 22,
+        fontWeight: 'bold'
+      },
+      responsavel: {
+        //flex: 1,
+        //backgroundColor: '#FFF'
+      },
+      responsavelText: {
+        color: COLORS.black,
+        fontSize: 25,
+        fontWeight: "bold"
+      },
+      
 })
