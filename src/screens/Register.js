@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, SafeAreaView, ScrollView, ImageBackground, Image
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { COLORS } from "../assets/const/colors";
-import background from "../assets/imgs/background.jpg"
+import apiClinica from "../services/apiClinica";
 
 
 
@@ -60,8 +60,25 @@ export const Register = () => {
 
         if(validate) {
             console.log('Sem erros de validação');
+            cadastrar();
+            console.log('CADASTROU')
         }
       }
+
+    const cadastrar = () => {
+        try {
+            const response = apiClinica.post('/cadastrarPaciente', {
+                'nome': inputs.nome,
+                'telefone': inputs.telefone,
+                'celular': inputs.celular,
+                'email': inputs.email,
+                'nomeResponsavel': inputs.nomeResponsavel,
+                'telefoneResponsavel': inputs.telefoneResponsavel
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
 
@@ -153,7 +170,6 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.pinkBold
     },
     scroll: {
-        //paddingTop: 0,
         paddingHorizontal: 20
       },
       title: {
